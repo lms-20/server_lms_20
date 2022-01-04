@@ -35,7 +35,7 @@ func Init() {
 		if err != nil {
 			panic(fmt.Sprintf("Failed to connect to database %s", k))
 		}
-		dbConnections[k] = db
+		dbConnections[k] = db``
 		logrus.Info(fmt.Sprintf("Successfully connected to database %s", k))
 	}
 }

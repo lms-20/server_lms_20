@@ -9,18 +9,18 @@ services:
     depends_on: 
       - codeid-postgres
       - codeid-redis
-      - codeid-es-01
+      - elasticsearch
     networks:
       - codeid-net
     
-  # postgres
+  # postgress
   codeid-postgres:
     container_name: codeid-postgres
     image: postgres:12-alpine 
     environment: 
-      - POSTGRES_USER=codeid_user
-      - POSTGRES_PASSWORD=f72d8509-c70a-485a-a471-23f899b988ab
-      - POSTGRES_DB=codeid_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db_lms
     volumes: 
       - codeid-postgres:/var/lib/postgresql
     ports:
@@ -45,62 +45,32 @@ services:
       - codeid-net
 
   # elasticsearch
-  codeid-es-01:
+  elasticsearch:
+    container_name: es-container
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
-    container_name: codeid-es-01
     environment:
-      - node.name=codeid-es-01
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=codeid-es-02,codeid-es-03
-      - cluster.initial_master_nodes=codeid-es-01,codeid-es-02,codeid-es-03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - codeid-net
     volumes:
-      - codeid-es-01:/usr/share/elasticsearch/data
+      - elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-    networks:
-      - codeid-net
-  codeid-es-02:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
-    container_name: codeid-es-02
+
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:7.11.0
     environment:
-      - node.name=codeid-es-02
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=codeid-es-01,codeid-es-03
-      - cluster.initial_master_nodes=codeid-es-01,codeid-es-02,codeid-es-03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - codeid-es-02:/usr/share/elasticsearch/data
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
     networks:
       - codeid-net
-  codeid-es-03:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
-    container_name: codeid-es-03
-    environment:
-      - node.name=codeid-es-03
-      - cluster.name=es-docker-cluster
-      - discovery.seed_hosts=codeid-es-01,codeid-es-02
-      - cluster.initial_master_nodes=codeid-es-01,codeid-es-02,codeid-es-03
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
     volumes:
-      - codeid-es-03:/usr/share/elasticsearch/data
-    networks:
-      - codeid-net
+      - kibana:/usr/share/kibana/data
 
 volumes:
   codeid-postgres:
@@ -109,13 +79,12 @@ volumes:
     external: true
   codeid-redis-conf:
     external: true
-  codeid-es-01:
+  elasticsearch:
     external: true
-  codeid-es-02:
-    external: true
-  codeid-es-03:
+  kibana:
     external: true
   
 networks:
   codeid-net:
+    driver: bridge
     name: codeid-net
