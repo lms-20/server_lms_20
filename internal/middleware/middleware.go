@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"codeid-boiler/pkg/util/validator"
 	"fmt"
+	"lms-api/pkg/util/validator"
 	"net/http"
 	"os"
 

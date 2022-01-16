@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"codeid-boiler/internal/abstraction"
-	"codeid-boiler/internal/model"
 	"fmt"
+	"lms-api/internal/abstraction"
+	"lms-api/internal/model"
 
 	"gorm.io/gorm"
 )

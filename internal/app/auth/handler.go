@@ -1,10 +1,10 @@
 package auth
 
 import (
-	"codeid-boiler/internal/abstraction"
-	"codeid-boiler/internal/dto"
-	"codeid-boiler/internal/factory"
-	res "codeid-boiler/pkg/util/response"
+	"lms-api/internal/abstraction"
+	"lms-api/internal/dto"
+	"lms-api/internal/factory"
+	res "lms-api/pkg/util/response"
 
 	"github.com/labstack/echo/v4"
 )

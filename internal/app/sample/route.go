@@ -1,7 +1,7 @@
 package sample
 
 import (
-	"codeid-boiler/internal/middleware"
+	"lms-api/internal/middleware"
 
 	"github.com/labstack/echo/v4"
 )

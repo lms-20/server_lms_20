@@ -1,8 +1,8 @@
 package log
 
 import (
-	"codeid-boiler/pkg/elasticsearch"
 	"context"
+	"lms-api/pkg/elasticsearch"
 )
 
 const (

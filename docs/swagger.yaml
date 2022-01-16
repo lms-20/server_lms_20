@@ -395,8 +395,8 @@ definitions:
 host: localhost:3030
 info:
   contact: {}
-  description: This is a doc for codeid-boiler.
-  title: codeid-boiler
+  description: This is a doc for lms-api.
+  title: lms-api
   version: 0.0.1
 paths:
   /auth/login:

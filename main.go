@@ -1,13 +1,13 @@
 package main
 
 import (
-	db "codeid-boiler/database"
-	"codeid-boiler/database/migration"
-	"codeid-boiler/internal/factory"
-	"codeid-boiler/internal/http"
-	"codeid-boiler/internal/middleware"
-	"codeid-boiler/pkg/elasticsearch"
-	"codeid-boiler/pkg/util/env"
+	db "lms-api/database"
+	"lms-api/database/migration"
+	"lms-api/internal/factory"
+	"lms-api/internal/http"
+	"lms-api/internal/middleware"
+	"lms-api/pkg/elasticsearch"
+	"lms-api/pkg/util/env"
 	"os"
 
 	"github.com/labstack/echo/v4"
@@ -22,9 +22,9 @@ func init() {
 	logrus.Info("Choosen environment " + ENV)
 }
 
-// @title codeid-boiler
+// @title lms-api
 // @version 0.0.1
-// @description This is a doc for codeid-boiler.
+// @description This is a doc for lms-api.
 
 // @securityDefinitions.apikey BearerAuth
 // @in header

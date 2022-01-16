@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"codeid-boiler/internal/abstraction"
+	"lms-api/internal/abstraction"
 
 	"github.com/labstack/echo/v4"
 )

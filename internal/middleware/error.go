@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	res "codeid-boiler/pkg/util/response"
+	res "lms-api/pkg/util/response"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

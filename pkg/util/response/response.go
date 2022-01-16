@@ -1,6 +1,6 @@
 package response
 
-import "codeid-boiler/internal/abstraction"
+import "lms-api/internal/abstraction"
 
 type Meta struct {
 	Success bool                        `json:"success" default:"true"`

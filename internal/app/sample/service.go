@@ -1,14 +1,14 @@
 package sample
 
 import (
-	"codeid-boiler/internal/abstraction"
-	"codeid-boiler/internal/dto"
-	"codeid-boiler/internal/factory"
-	"codeid-boiler/internal/model"
-	"codeid-boiler/internal/repository"
-	res "codeid-boiler/pkg/util/response"
-	"codeid-boiler/pkg/util/trxmanager"
 	"errors"
+	"lms-api/internal/abstraction"
+	"lms-api/internal/dto"
+	"lms-api/internal/factory"
+	"lms-api/internal/model"
+	"lms-api/internal/repository"
+	res "lms-api/pkg/util/response"
+	"lms-api/pkg/util/trxmanager"
 
 	"gorm.io/gorm"
 )
@@ -70,7 +70,6 @@ func (s *service) FindByID(ctx *abstraction.Context, payload *dto.SampleGetByIDR
 func (s *service) Create(ctx *abstraction.Context, payload *dto.SampleCreateRequest) (*dto.SampleCreateResponse, error) {
 	var result *dto.SampleCreateResponse
 	var data *model.SampleEntityModel
-
 	if err = trxmanager.New(s.Db).WithTrx(ctx, func(ctx *abstraction.Context) error {
 		data.Context = ctx
 		data.SampleEntity = payload.SampleEntity

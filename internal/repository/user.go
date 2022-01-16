@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"codeid-boiler/internal/abstraction"
-	"codeid-boiler/internal/model"
+	"lms-api/internal/abstraction"
+	"lms-api/internal/model"
 
 	"gorm.io/gorm"
 )
@@ -10,6 +10,7 @@ import (
 type User interface {
 	FindByEmail(ctx *abstraction.Context, email *string) (*model.UserEntityModel, error)
 	Create(ctx *abstraction.Context, data *model.UserEntity) (*model.UserEntityModel, error)
+	FindByID(ctx *abstraction.Context, id *int) (*model.UserEntityModel, error)
 	checkTrx(ctx *abstraction.Context) *gorm.DB
 }
 
@@ -57,4 +58,16 @@ func (r *user) checkTrx(ctx *abstraction.Context) *gorm.DB {
 		return ctx.Trx.Db
 	}
 	return r.Db
+}
+
+func (r *user) FindByID(ctx *abstraction.Context, id *int) (*model.UserEntityModel, error) {
+	conn := r.checkTrx(ctx)
+
+	var data model.UserEntityModel
+	err := conn.Where("id = ?", id).First(&data).
+		WithContext(ctx.Request().Context()).Error
+	if err != nil {
+		return nil, err
+	}
+	return &data, nil
 }
