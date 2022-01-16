@@ -1,8 +1,8 @@
 package dto
 
 import (
-	"codeid-boiler/internal/model"
-	res "codeid-boiler/pkg/util/response"
+	"lms-api/internal/model"
+	res "lms-api/pkg/util/response"
 )
 
 // Login
@@ -19,6 +19,9 @@ type AuthLoginResponseDoc struct {
 		Meta res.Meta          `json:"meta"`
 		Data AuthLoginResponse `json:"data"`
 	} `json:"body"`
+}
+
+type UserGetByParams struct {
 }
 
 // Register

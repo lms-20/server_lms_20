@@ -16,16 +16,16 @@ var (
 
 func Init() {
 	dbConfigurations := map[string]Db{
-		"SAMPLE1": &dbPostgreSQL{
+		"POSTGRES": &dbPostgreSQL{
 			db: db{
-				Host: os.Getenv("DB_HOST_SAMPLE1"),
-				User: os.Getenv("DB_USER_SAMPLE1"),
-				Pass: os.Getenv("DB_PASS_SAMPLE1"),
-				Port: os.Getenv("DB_PORT_SAMPLE1"),
-				Name: os.Getenv("DB_NAME_SAMPLE1"),
+				Host: os.Getenv("DB_HOST_POSTGRES"),
+				User: os.Getenv("DB_USER_POSTGRES"),
+				Pass: os.Getenv("DB_PASS_POSTGRES"),
+				Port: os.Getenv("DB_PORT_POSTGRES"),
+				Name: os.Getenv("DB_NAME_POSTGRES"),
 			},
-			SslMode: os.Getenv("DB_SSLMODE_SAMPLE1"),
-			Tz:      os.Getenv("DB_TZ_SAMPLE1"),
+			SslMode: os.Getenv("DB_SSLMODE_POSTGRES"),
+			Tz:      os.Getenv("DB_TZ_POSTGRES"),
 		},
 	}
 
@@ -35,7 +35,7 @@ func Init() {
 		if err != nil {
 			panic(fmt.Sprintf("Failed to connect to database %s", k))
 		}
-		dbConnections[k] = db``
+		dbConnections[k] = db
 		logrus.Info(fmt.Sprintf("Successfully connected to database %s", k))
 	}
 }

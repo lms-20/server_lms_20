@@ -1072,8 +1072,8 @@ var SwaggerInfo = swaggerInfo{
 	Host:        "localhost:3030",
 	BasePath:    "/",
 	Schemes:     []string{},
-	Title:       "codeid-boiler",
-	Description: "This is a doc for codeid-boiler.",
+	Title:       "lms-api",
+	Description: "This is a doc for lms-api.",
 }
 
 type s struct{}

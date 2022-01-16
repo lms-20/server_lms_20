@@ -1,9 +1,9 @@
 package dto
 
 import (
-	"codeid-boiler/internal/abstraction"
-	"codeid-boiler/internal/model"
-	res "codeid-boiler/pkg/util/response"
+	"lms-api/internal/abstraction"
+	"lms-api/internal/model"
+	res "lms-api/pkg/util/response"
 )
 
 // Get
@@ -49,6 +49,17 @@ type SampleCreateResponseDoc struct {
 		Data SampleCreateResponse `json:"data"`
 	} `json:"body"`
 }
+
+// type SampeUserRegisterDoc struct {
+// 	Body str
+// }
+
+// type SampeUserRegisterStrucDoc struct {
+// 	Body struct {
+// 		Meta res.Meta `json:"Meta"`
+
+// 	}
+// }
 
 // Update
 type SampleUpdateRequest struct {

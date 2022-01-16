@@ -1,16 +1,19 @@
 package factory
 
 import (
-	"codeid-boiler/database"
-	"codeid-boiler/internal/repository"
+	"lms-api/database"
+	"lms-api/internal/repository"
 
 	"gorm.io/gorm"
 )
 
 type Factory struct {
-	Db               *gorm.DB
-	UserRepository   repository.User
-	SampleRepository repository.Sample
+	Db                 *gorm.DB
+	UserRepository     repository.User
+	SampleRepository   repository.Sample
+	MentorRepository   repository.Mentor
+	CategoryRepository repository.Category
+	CourseRepository   repository.Course
 }
 
 func NewFactory() *Factory {
@@ -22,7 +25,7 @@ func NewFactory() *Factory {
 }
 
 func (f *Factory) SetupDb() {
-	db, err := database.Connection("SAMPLE1")
+	db, err := database.Connection("POSTGRES")
 	if err != nil {
 		panic("Failed setup db, connection is undefined")
 	}
@@ -35,5 +38,9 @@ func (f *Factory) SetupRepository() {
 	}
 
 	f.UserRepository = repository.NewUser(f.Db)
+	f.CategoryRepository = repository.NewCategory(f.Db)
 	f.SampleRepository = repository.NewSample(f.Db)
+	f.MentorRepository = repository.NewMentor(f.Db)
+	f.CourseRepository = repository.NewCourse(f.Db)
+
 }

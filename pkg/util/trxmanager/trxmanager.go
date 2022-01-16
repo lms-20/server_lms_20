@@ -1,9 +1,9 @@
 package trxmanager
 
 import (
-	"codeid-boiler/internal/abstraction"
 	"errors"
 	"fmt"
+	"lms-api/internal/abstraction"
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"

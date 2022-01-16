@@ -1,12 +1,12 @@
 package response
 
 import (
-	"codeid-boiler/pkg/log"
-	"codeid-boiler/pkg/util/date"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"lms-api/pkg/log"
+	"lms-api/pkg/util/date"
 	"net/http"
 	"os"
 

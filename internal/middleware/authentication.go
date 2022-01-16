@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"codeid-boiler/internal/abstraction"
-	res "codeid-boiler/pkg/util/response"
+	"lms-api/internal/abstraction"
+	res "lms-api/pkg/util/response"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo/v4"
@@ -60,11 +60,20 @@ func Authentication(next echo.HandlerFunc) echo.HandlerFunc {
 			email = ""
 		}
 
+		var role string
+		destructRole := token.Claims.(jwt.MapClaims)["role"]
+		if destructRole != nil {
+			role = destructRole.(string)
+		} else {
+			role = ""
+		}
+
 		cc := c.(*abstraction.Context)
 		cc.Auth = &abstraction.AuthContext{
 			ID:    id,
 			Name:  name,
 			Email: email,
+			Role:  role,
 		}
 
 		return next(cc)

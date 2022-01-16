@@ -1,11 +1,14 @@
 package http
 
 import (
-	docs "codeid-boiler/docs"
-	"codeid-boiler/internal/app/auth"
-	"codeid-boiler/internal/app/sample"
-	"codeid-boiler/internal/factory"
 	"fmt"
+	docs "lms-api/docs"
+	"lms-api/internal/app/category"
+	"lms-api/internal/app/courses"
+	"lms-api/internal/app/mentor"
+	"lms-api/internal/app/sample"
+	"lms-api/internal/app/users"
+	"lms-api/internal/factory"
 	"net/http"
 	"os"
 
@@ -35,6 +38,11 @@ func Init(e *echo.Echo, f *factory.Factory) {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// routes
-	auth.NewHandler(f).Route(e.Group("/auth"))
+	// auth.NewHandler(f).Route(e.Group("/auth"))
 	sample.NewHandler(f).Route(e.Group("/samples"))
+	users.NewHandler(f).Route(e.Group("/users"))
+	mentor.NewHandler(f).Route(e.Group("/mentors"))
+	category.NewHandler(f).Route(e.Group("/categories"))
+	courses.NewHandler(f).Route(e.Group("/courses"))
+
 }

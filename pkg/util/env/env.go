@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"codeid-boiler/pkg/constant"
+	"lms-api/pkg/constant"
 
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"

@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a doc for codeid-boiler.",
-        "title": "codeid-boiler",
+        "description": "This is a doc for lms-api.",
+        "title": "lms-api",
         "contact": {},
         "version": "0.0.1"
     },

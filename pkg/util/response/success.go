@@ -1,7 +1,7 @@
 package response
 
 import (
-	"codeid-boiler/internal/abstraction"
+	"lms-api/internal/abstraction"
 	"net/http"
 
 	"github.com/labstack/echo/v4"

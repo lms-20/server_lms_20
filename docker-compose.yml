@@ -7,26 +7,27 @@ services:
     ports:
       - "3030:3030"
     depends_on: 
-      - codeid-postgres
       - codeid-redis
       - elasticsearch
+      - codeid-postgres
     networks:
       - codeid-net
-    
-  # postgress
-  codeid-postgres:
-    container_name: codeid-postgres
-    image: postgres:12-alpine 
-    environment: 
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=db_lms
-    volumes: 
-      - codeid-postgres:/var/lib/postgresql
+    command: sh -c "dockerize -wait tcp://codeid-postgres:5432 -wait http://es-container:9200 -timeout 300s -wait-retry-interval 30s  ENV=DEV /go/bin/api"
+
+  # elasticsearch
+  elasticsearch:
+    container_name: es-container
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - codeid-net
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
     ports:
-      - "5432:5432"
-    networks:
-      - codeid-net
+      - 9200:9200
+
   
   # redis
   codeid-redis:
@@ -44,34 +45,23 @@ services:
     networks:
       - codeid-net
 
-  # elasticsearch
-  elasticsearch:
-    container_name: es-container
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
-    environment:
-      - xpack.security.enabled=false
-      - "discovery.type=single-node"
+
+  # postgress
+  codeid-postgres:
+    container_name: codeid-postgres
+    image: postgres:12-alpine 
+    environment: 
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db_lms
+    volumes: 
+      - codeid-postgres:/var/lib/postgresql
+    ports:
+      - "5432:5432"
     networks:
       - codeid-net
-    volumes:
-      - elasticsearch:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
 
-  kibana:
-    container_name: kb-container
-    image: docker.elastic.co/kibana/kibana:7.11.0
-    environment:
-      - ELASTICSEARCH_HOSTS=http://es-container:9200
-    networks:
-      - codeid-net
-    depends_on:
-      - elasticsearch
-    ports:
-      - 5601:5601
-    volumes:
-      - kibana:/usr/share/kibana/data
-
+  
 volumes:
   codeid-postgres:
     external: true
@@ -81,10 +71,8 @@ volumes:
     external: true
   elasticsearch:
     external: true
-  kibana:
-    external: true
+
   
 networks:
   codeid-net:
-    driver: bridge
     name: codeid-net

@@ -1,13 +1,13 @@
 package auth
 
 import (
-	"codeid-boiler/internal/abstraction"
-	"codeid-boiler/internal/dto"
-	"codeid-boiler/internal/factory"
-	"codeid-boiler/internal/model"
-	"codeid-boiler/internal/repository"
-	res "codeid-boiler/pkg/util/response"
-	"codeid-boiler/pkg/util/trxmanager"
+	"lms-api/internal/abstraction"
+	"lms-api/internal/dto"
+	"lms-api/internal/factory"
+	"lms-api/internal/model"
+	"lms-api/internal/repository"
+	res "lms-api/pkg/util/response"
+	"lms-api/pkg/util/trxmanager"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"

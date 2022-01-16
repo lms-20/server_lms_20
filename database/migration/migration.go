@@ -1,9 +1,9 @@
 package migration
 
 import (
-	"codeid-boiler/database"
-	"codeid-boiler/internal/model"
 	"fmt"
+	"lms-api/database"
+	"lms-api/internal/model"
 
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
@@ -22,12 +22,15 @@ type migration struct {
 
 func Init() {
 	mgConfigurations := map[string]Migration{
-		"SAMPLE1": &migration{
+		"POSTGRES": &migration{
 			DbModels: &[]interface{}{
 				&model.UserEntityModel{},
-				&model.SampleEntityModel{},
-				&model.SampleChildEntityModel{},
-				&model.SampleGrandChildEntityModel{},
+				&model.MentorEntityModel{},
+				&model.CategoryEntityModel{},
+				&model.CourseEntityModel{},
+				// &model.SampleEntityModel{},
+				// &model.SampleChildEntityModel{},
+				// &model.SampleGrandChildEntityModel{},
 			},
 			IsAutoMigrate: true,
 		},

@@ -1,9 +1,9 @@
 package model
 
 import (
-	"codeid-boiler/internal/abstraction"
-	"codeid-boiler/pkg/constant"
-	"codeid-boiler/pkg/util/date"
+	"lms-api/internal/abstraction"
+	"lms-api/pkg/constant"
+	"lms-api/pkg/util/date"
 	"os"
 	"time"
 
@@ -12,13 +12,21 @@ import (
 	"gorm.io/gorm"
 )
 
+type roleType string
+
+const (
+	student roleType = "student"
+	admin   roleType = "admin"
+)
+
 type UserEntity struct {
-	Name         string `json:"name" validate:"required"`
-	Phone        string `json:"phone" validate:"required"`
-	Email        string `json:"email" validate:"required,email" gorm:"index:idx_user_email,unique"`
-	PasswordHash string `json:"-"`
-	Password     string `json:"password" validate:"required" gorm:"-"`
-	IsActive     bool   `json:"is_active" validate:"required"`
+	Name         string   `json:"name" validate:"required"`
+	Email        string   `json:"email" validate:"required,email" gorm:"index:idx_user_email,unique"`
+	Profession   string   `json:"profession" validate:"required"`
+	PasswordHash string   `json:"-"`
+	Password     string   `json:"password" validate:"required" gorm:"-"`
+	Avatar       string   `json:"avatar"`
+	Role         roleType `sql:"roleType" json:"role"`
 }
 
 type UserEntityModel struct {
@@ -42,6 +50,7 @@ func (m *UserEntityModel) BeforeCreate(tx *gorm.DB) (err error) {
 
 	m.hashPassword()
 	m.Password = ""
+	m.Role = "student"
 	return
 }
 
@@ -62,11 +71,12 @@ func (m *UserEntityModel) GenerateToken() (string, error) {
 	)
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":    m.ID,
-		"email": m.Email,
-		"name":  m.Name,
-		"phone": m.Phone,
-		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+		"id":     m.ID,
+		"email":  m.Email,
+		"name":   m.Name,
+		"avatar": m.Avatar,
+		"role":   m.Role,
+		"exp":    time.Now().Add(time.Hour * 72).Unix(),
 	})
 
 	tokenString, err := token.SignedString([]byte(jwtKey))

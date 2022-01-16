@@ -3,6 +3,7 @@ FROM golang:alpine AS build
 WORKDIR /go/src/app
 COPY . .
 
+
 # RUN go mod init eclaim-api
 RUN go mod tidy
 RUN go get -u github.com/swaggo/swag/cmd/swag
@@ -13,6 +14,13 @@ RUN GOOS=linux go build -ldflags="-s -w" -o ./bin/api ./main.go
 # final stage
 FROM alpine:latest
 # RUN apk add --no-cache git
+RUN apk add --no-cache openssl
+
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+
 
 WORKDIR /usr/app
 
