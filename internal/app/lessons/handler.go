@@ -1,4 +1,4 @@
-package mentor
+package lessons
 
 import (
 	"fmt"
@@ -11,11 +11,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+var err error
+
 type handler struct {
 	service *service
 }
-
-var err error
 
 func NewHandler(f *factory.Factory) *handler {
 	service := NewService(f)
@@ -30,13 +30,13 @@ func (h *handler) Get(c echo.Context) error {
 		return res.ErrorResponse(err).Send(c)
 	}
 
-	return res.CustomSuccessBuilder(200, result.Datas, "Get Mentors Success", nil).Send(c)
+	return res.CustomSuccessBuilder(200, result.Datas, "Get Lessons Success", nil).Send(c)
 }
 
 func (h *handler) Create(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 
-	payload := new(dto.MentorCreateRequest)
+	payload := new(dto.LessonCreateRequest)
 	if err := c.Bind(payload); err != nil {
 		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
 	}
@@ -54,8 +54,8 @@ func (h *handler) Create(c echo.Context) error {
 func (h *handler) Update(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 	id := c.Param("id")
-	payload := new(dto.MentorUpdateRequest)
-	if err := c.Bind(&payload.MentorEntity); err != nil {
+	payload := new(dto.LessonUpdateRequest)
+	if err := c.Bind(&payload.LessonEntity); err != nil {
 		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
 	}
 	if err := c.Validate(payload); err != nil {
@@ -84,10 +84,12 @@ func (h *handler) GetByID(c echo.Context) error {
 func (h *handler) Delete(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 	id, _ := strconv.Atoi(c.Param("id"))
+
 	_, err := h.service.Delete(cc, &id)
 	if err != nil {
 		return res.ErrorResponse(err).Send(c)
 	}
-	message := fmt.Sprintf("success delete mentor id : %d", id)
+
+	message := fmt.Sprintf("success delete chapter id : %d", id)
 	return res.CustomSuccessBuilder(200, nil, message, nil).Send(c)
 }

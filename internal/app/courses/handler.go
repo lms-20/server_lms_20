@@ -81,6 +81,7 @@ func (h *handler) GetByID(c echo.Context) error {
 	return res.SuccessResponse(result).Send(c)
 }
 
+
 func (h *handler) Delete(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 	id, _ := strconv.Atoi(c.Param("id"))

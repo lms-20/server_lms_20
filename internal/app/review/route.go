@@ -1,4 +1,4 @@
-package sample
+package review
 
 import (
 	"lms-api/internal/middleware"
