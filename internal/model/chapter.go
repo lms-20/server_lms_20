@@ -22,7 +22,7 @@ type ChapterEntityModel struct {
 	ChapterEntity
 
 	// relational
-	Lessons []LessonEntityModel `json:"chapters" gorm:"foreignKey:ChapterID;"`
+	Lessons []LessonEntityModel `json:"lessons" gorm:"foreignKey:ChapterID;"`
 
 	// context
 	Context *abstraction.Context `json:"-" gorm:"-"`

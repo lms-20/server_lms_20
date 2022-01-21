@@ -49,7 +49,6 @@ func (m *ReviewEntityModel) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (m *ReviewEntityModel) BeforeUpdate(tx *gorm.DB) (err error) {
 	m.ModifiedAt = date.DateTodayLocal()
-	m.UserID = m.Context.Auth.ID
 	m.ModifiedBy = &m.Context.Auth.Name
 	return
 }

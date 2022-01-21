@@ -31,7 +31,7 @@ func (r *course) FindByID(ctx *abstraction.Context, id *int) (*model.CourseEntit
 	conn := r.CheckTrx(ctx)
 	var data model.CourseEntityModel
 
-	err := conn.Where("id = ?", id).First(&data).WithContext(ctx.Request().Context()).Error
+	err := conn.Where("id = ?", id).Preload("Chapters.Lessons").Preload("Category").Preload("Mentor").First(&data).WithContext(ctx.Request().Context()).Error
 	if err != nil {
 		return nil, err
 	}
