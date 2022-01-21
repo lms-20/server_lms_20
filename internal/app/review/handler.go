@@ -1,4 +1,4 @@
-package mentor
+package review
 
 import (
 	"fmt"
@@ -30,13 +30,13 @@ func (h *handler) Get(c echo.Context) error {
 		return res.ErrorResponse(err).Send(c)
 	}
 
-	return res.CustomSuccessBuilder(200, result.Datas, "Get Mentors Success", nil).Send(c)
+	return res.CustomSuccessBuilder(200, result.Datas, "Get Reviews Success", nil).Send(c)
 }
 
 func (h *handler) Create(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 
-	payload := new(dto.MentorCreateRequest)
+	payload := new(dto.ReviewCreateRequest)
 	if err := c.Bind(payload); err != nil {
 		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
 	}
@@ -54,8 +54,8 @@ func (h *handler) Create(c echo.Context) error {
 func (h *handler) Update(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 	id := c.Param("id")
-	payload := new(dto.MentorUpdateRequest)
-	if err := c.Bind(&payload.MentorEntity); err != nil {
+	payload := new(dto.ReviewUpdateRequest)
+	if err := c.Bind(&payload.ReviewEntity); err != nil {
 		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
 	}
 	if err := c.Validate(payload); err != nil {
@@ -88,6 +88,6 @@ func (h *handler) Delete(c echo.Context) error {
 	if err != nil {
 		return res.ErrorResponse(err).Send(c)
 	}
-	message := fmt.Sprintf("success delete mentor id : %d", id)
+	message := fmt.Sprintf("success delete review id : %d", id)
 	return res.CustomSuccessBuilder(200, nil, message, nil).Send(c)
 }

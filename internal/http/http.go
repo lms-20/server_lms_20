@@ -4,8 +4,12 @@ import (
 	"fmt"
 	docs "lms-api/docs"
 	"lms-api/internal/app/category"
+	"lms-api/internal/app/chapter"
 	"lms-api/internal/app/courses"
+	"lms-api/internal/app/lessons"
 	"lms-api/internal/app/mentor"
+	"lms-api/internal/app/note"
+	"lms-api/internal/app/review"
 	"lms-api/internal/app/sample"
 	"lms-api/internal/app/users"
 	"lms-api/internal/factory"
@@ -38,11 +42,14 @@ func Init(e *echo.Echo, f *factory.Factory) {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// routes
-	// auth.NewHandler(f).Route(e.Group("/auth"))
 	sample.NewHandler(f).Route(e.Group("/samples"))
 	users.NewHandler(f).Route(e.Group("/users"))
 	mentor.NewHandler(f).Route(e.Group("/mentors"))
 	category.NewHandler(f).Route(e.Group("/categories"))
 	courses.NewHandler(f).Route(e.Group("/courses"))
+	chapter.NewHandler(f).Route(e.Group("/chapters"))
+	lessons.NewHandler(f).Route(e.Group("/lessons"))
+	note.NewHandler(f).Route(e.Group("/notes"))
+	review.NewHandler(f).Route(e.Group("/reviews"))
 
 }

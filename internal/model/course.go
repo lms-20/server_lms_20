@@ -49,8 +49,10 @@ type CourseEntityModel struct {
 	CourseEntity
 
 	// relationals
-	Mentor   MentorEntityModel   `json:"mentor" gorm:"foreignKey:MentorID"`
-	Category CategoryEntityModel `json:"category" gorm:"foreignKey:CategoryID"`
+	Mentor   MentorEntityModel    `json:"mentor" gorm:"foreignKey:MentorID"`
+	Category CategoryEntityModel  `json:"category" gorm:"foreignKey:CategoryID"`
+	Chapters []ChapterEntityModel `json:"chapters" gorm:"foreignKey:CourseID;"`
+	Reviews  []ReviewEntityModel  `json:"reviews" gorm:"foreignKey:CourseID;"`
 
 	// context
 	Context *abstraction.Context `json:"-" gorm:"-"`

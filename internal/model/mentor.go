@@ -21,7 +21,7 @@ type MentorEntityModel struct {
 	//entity
 	MentorEntity
 
-	// context
+	// contexts
 	Context *abstraction.Context `json:"-" gorm:"-"`
 }
 
