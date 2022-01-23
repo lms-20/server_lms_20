@@ -8,6 +8,7 @@ import (
 	"lms-api/internal/app/courses"
 	"lms-api/internal/app/lessons"
 	"lms-api/internal/app/mentor"
+	"lms-api/internal/app/mycourse"
 	"lms-api/internal/app/note"
 	"lms-api/internal/app/review"
 	"lms-api/internal/app/sample"
@@ -51,5 +52,6 @@ func Init(e *echo.Echo, f *factory.Factory) {
 	lessons.NewHandler(f).Route(e.Group("/lessons"))
 	note.NewHandler(f).Route(e.Group("/notes"))
 	review.NewHandler(f).Route(e.Group("/reviews"))
+	mycourse.NewHandler(f).Route(e.Group("/mycourses"))
 
 }

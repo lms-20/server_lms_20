@@ -32,6 +32,7 @@ func Init() {
 				&model.ChapterEntityModel{},
 				&model.LessonEntityModel{},
 				&model.NoteEntityModel{},
+				&model.MyCourseEntityModel{},
 				// &model.SampleEntityModel{},
 				// &model.SampleChildEntityModel{},
 				// &model.SampleGrandChildEntityModel{},
