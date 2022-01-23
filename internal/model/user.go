@@ -36,6 +36,8 @@ type UserEntityModel struct {
 	// entity
 	UserEntity
 
+	// relationals
+
 	// context
 	Context *abstraction.Context `json:"-" gorm:"-"`
 }
