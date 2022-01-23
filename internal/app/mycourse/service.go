@@ -3,6 +3,7 @@ package mycourse
 import (
 	"errors"
 	"lms-api/internal/abstraction"
+	"lms-api/internal/app/courses"
 	"lms-api/internal/dto"
 	"lms-api/internal/factory"
 	"lms-api/internal/model"
@@ -19,21 +20,30 @@ type Service interface {
 }
 
 type service struct {
-	Repository repository.MyCourse
-	Db         *gorm.DB
+	RepositoryMyCourse repository.MyCourse
+	ServiceCourse      courses.Service
+	// ServiceOrder       order.Service
+	Db *gorm.DB
 }
 
 func NewService(f *factory.Factory) *service {
-	repository := f.MyCourseRepository
+	repositoryMyCourse := f.MyCourseRepository
+	serviceCourse := courses.NewService(f)
+	// serviceOrder := order.NewService(f)
 	db := f.Db
-	return &service{repository, db}
+	return &service{
+		RepositoryMyCourse: repositoryMyCourse,
+		ServiceCourse:      serviceCourse,
+		// ServiceOrder:       serviceOrder,
+		Db: db,
+	}
 }
 
 func (s *service) FindByID(ctx *abstraction.Context, id *int) (*dto.MyCourseGetResponse, error) {
 	var result *dto.MyCourseGetResponse
 	var datas *[]model.MyCourseEntityModel
 
-	datas, err := s.Repository.FindByID(ctx, id)
+	datas, err := s.RepositoryMyCourse.FindByID(ctx, id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return result, res.ErrorBuilder(&res.ErrorConstant.NotFound, err)
@@ -51,12 +61,31 @@ func (s *service) Create(ctx *abstraction.Context, payload *dto.MyCourseCreateRe
 	var result *dto.MyCourseCreateResponse
 	var data *model.MyCourseEntityModel
 
+	// course, errs := s.ServiceCourse.FindByID(ctx, &payload.MyCourseEntity.CourseID)
+	// if errs != nil {
+	// 	return result, res.CustomErrorBuilder(404, "not found", "course not found")
+	// }
+
+	// if course.Type == "fremium" {
+
+	// 	order, errs := s.ServiceOrder.Create(ctx, &dto.OrderCreateRequest{course.ID})
+	// 	if errs != nil {
+	// 		return result, errs
+	// 	}
+
+	// 	newOrder, errs := s.ServiceOrder.Update(ctx, &dto.OrderUpdateRequest{ID: order.ID, OrderEntity: order.OrderEntity}, &dto.CourseGetByIDResponse{course.CourseEntityModel})
+	// 	if errs != nil {
+	// 		return result, errs
+	// 	}
+
+	// } else {
+
+	// }
 	if err = trxmanager.New(s.Db).WithTrx(ctx, func(ctx *abstraction.Context) error {
-		data, err = s.Repository.Create(ctx, &payload.MyCourseEntity)
+		data, err = s.RepositoryMyCourse.Create(ctx, &payload.MyCourseEntity)
 		if err != nil {
 			return res.ErrorBuilder(&res.ErrorConstant.UnprocessableEntity, err)
 		}
-
 		return nil
 	}); err != nil {
 		return result, err
@@ -66,6 +95,6 @@ func (s *service) Create(ctx *abstraction.Context, payload *dto.MyCourseCreateRe
 	result = &dto.MyCourseCreateResponse{
 		MyCourseEntityModel: *data,
 	}
-
 	return result, nil
+
 }
