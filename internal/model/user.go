@@ -20,12 +20,14 @@ const (
 )
 
 type UserEntity struct {
-	Name         string   `json:"name" validate:"required"`
-	Email        string   `json:"email" validate:"required,email" gorm:"index:idx_user_email,unique"`
-	Profession   string   `json:"profession" validate:"required"`
+	Name         string   `json:"fullname" validate:"required"`
+	Email        string   `json:"emailAddress" validate:"required,email" gorm:"index:idx_user_email,unique"`
+	Occupation   string   `json:"occupation" validate:"required"`
 	PasswordHash string   `json:"-"`
 	Password     string   `json:"password" validate:"required" gorm:"-"`
 	Avatar       string   `json:"avatar"`
+	Age          int      `json:"age"`
+	PhoneNumber  string   `json:"phoneNumber"`
 	Role         roleType `sql:"roleType" json:"role"`
 }
 

@@ -69,8 +69,7 @@ func (m *OrderEntityModel) BeforeCreate(tx *gorm.DB) (err error) {
 
 func (m *OrderEntityModel) BeforeUpdate(tx *gorm.DB) (err error) {
 	m.ModifiedAt = date.DateTodayLocal()
-	m.ModifiedBy = &m.Context.Auth.Name
-	m.UserID = m.Context.Auth.ID
+	m.ModifiedBy = nil
 	return
 }
 

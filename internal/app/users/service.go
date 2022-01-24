@@ -61,7 +61,8 @@ func (s *service) Login(ctx *abstraction.Context, payload *dto.UserLoginRequest)
 	}
 
 	if err = bcrypt.CompareHashAndPassword([]byte(data.PasswordHash), []byte(payload.Password)); err != nil {
-		return result, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
+		// return result, res.ErrorBuilder(&res.ErrorConstant.InternalServerError, err)
+		return result, res.CustomErrorBuilder(402, "wrong password", "wrong password")
 	}
 
 	token, err := data.GenerateToken()

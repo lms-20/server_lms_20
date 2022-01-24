@@ -40,6 +40,7 @@ func (r *mycourse) Create(ctx *abstraction.Context, e *model.MyCourseEntity) (*m
 	var data model.MyCourseEntityModel
 	data.MyCourseEntity = *e
 	data.Context = ctx
+	data.UserID = ctx.Auth.ID
 
 	err := conn.Create(&data).Error
 	if err != nil {

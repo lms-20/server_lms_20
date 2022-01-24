@@ -37,7 +37,7 @@ type UserRegisterResponseDoc struct {
 
 // login
 type UserLoginRequest struct {
-	Email    string `json:"email" validate:"required,email"`
+	Email    string `json:"emailAddress" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
 }
 

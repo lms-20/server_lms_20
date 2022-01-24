@@ -50,17 +50,6 @@ type SampleCreateResponseDoc struct {
 	} `json:"body"`
 }
 
-// type SampeUserRegisterDoc struct {
-// 	Body str
-// }
-
-// type SampeUserRegisterStrucDoc struct {
-// 	Body struct {
-// 		Meta res.Meta `json:"Meta"`
-
-// 	}
-// }
-
 // Update
 type SampleUpdateRequest struct {
 	ID int `param:"id" validate:"required,numeric"`
