@@ -24,6 +24,7 @@ func (h *handler) Register(c echo.Context) error {
 	cc := c.(*abstraction.Context)
 
 	payload := new(dto.UserRegisterRequest)
+
 	if err = c.Bind(payload); err != nil {
 		return res.ErrorBuilder(&res.ErrorConstant.BadRequest, err).Send(c)
 	}
@@ -55,7 +56,6 @@ func (h *handler) Login(c echo.Context) error {
 		return res.ErrorResponse(err).Send(c)
 	}
 	return res.SuccessResponse(data).Send(c)
-
 }
 
 func (h *handler) GetByID(c echo.Context) error {
@@ -68,8 +68,6 @@ func (h *handler) GetByID(c echo.Context) error {
 	if err != nil {
 		return res.ErrorResponse(err).Send(c)
 	}
-
-	// fmt.Println(cc.Auth)
 
 	return res.SuccessResponse(result).Send(c)
 }

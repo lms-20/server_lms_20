@@ -2,6 +2,9 @@ package mycourse
 
 import (
 	"lms-api/internal/abstraction"
+	"lms-api/internal/app/courses"
+	"lms-api/internal/app/order"
+
 	"lms-api/internal/dto"
 	"lms-api/internal/factory"
 	res "lms-api/pkg/util/response"
@@ -12,12 +15,16 @@ import (
 var err error
 
 type handler struct {
-	service *service
+	service       *service
+	serviceCourse courses.Service
+	serviceOrder  order.Service
 }
 
 func NewHandler(f *factory.Factory) *handler {
 	service := NewService(f)
-	return &handler{service}
+	serviceCourse := courses.NewService(f)
+	serviceOrder := order.NewService(f)
+	return &handler{service: service, serviceCourse: serviceCourse, serviceOrder: serviceOrder}
 }
 
 func (h *handler) Create(c echo.Context) error {
@@ -30,12 +37,34 @@ func (h *handler) Create(c echo.Context) error {
 	if err := c.Validate(payload); err != nil {
 		return res.ErrorBuilder(&res.ErrorConstant.Validation, err).Send(c)
 	}
-	result, err := h.service.Create(cc, payload)
+
+	course, err := h.serviceCourse.FindByID(cc, &payload.CourseID)
 	if err != nil {
 		return res.ErrorResponse(err).Send(c)
 	}
 
-	return res.SuccessResponse(result).Send(c)
+	if course.Type == "fremium" {
+		order, err := h.serviceOrder.Create(cc, &dto.OrderCreateRequest{CourseID: course.ID})
+		if err != nil {
+			return res.ErrorResponse(err).Send(c)
+		}
+
+		newOrder, err := h.serviceOrder.Update(cc, &dto.OrderUpdateRequest{ID: order.ID, OrderEntity: order.OrderEntity}, &dto.CourseGetByIDResponse{CourseEntityModel: course.CourseEntityModel})
+		if err != nil {
+			return res.ErrorResponse(err).Send(c)
+		}
+
+		return res.SuccessResponse(newOrder).Send(c)
+
+	} else {
+		result, err := h.service.Create(cc, payload)
+		if err != nil {
+			return res.ErrorResponse(err).Send(c)
+		}
+
+		return res.SuccessResponse(result).Send(c)
+	}
+
 }
 
 func (h *handler) GetByID(c echo.Context) error {

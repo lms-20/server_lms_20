@@ -19,6 +19,7 @@ type Factory struct {
 	NoteRepository     repository.Note
 	ReviewRepository   repository.Review
 	MyCourseRepository repository.MyCourse
+	OrderRepository    repository.Order
 }
 
 func NewFactory() *Factory {
@@ -52,5 +53,6 @@ func (f *Factory) SetupRepository() {
 	f.NoteRepository = repository.NewNote(f.Db)
 	f.ReviewRepository = repository.NewReview(f.Db)
 	f.MyCourseRepository = repository.NewMyCourse(f.Db)
+	f.OrderRepository = repository.NewOrder(f.Db)
 
 }

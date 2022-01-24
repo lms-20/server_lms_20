@@ -34,7 +34,7 @@ type CourseEntity struct {
 	Thumbnail   string     `json:"thumbnail" validate:"required"`
 	Type        typeType   `json:"type" sql:"type:typeType" validate:"required"`
 	Status      statusType `json:"status" sql:"type:statusType" validate:"required"`
-	Price       int        `json:"price"  validate:"required"`
+	Price       int        `json:"price"`
 	Level       levelType  `json:"level" sql:"type:levelType"  validate:"required"`
 	Description string     `json:"description"  validate:"required"`
 	MentorID    int        `json:"mentor_id"  validate:"required"`
