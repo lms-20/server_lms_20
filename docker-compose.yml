@@ -39,7 +39,7 @@ services:
     container_name: lms-api
     image: lms-api:latest
     ports:
-      - '3030:3030'
+      - '3030:9200'
     depends_on:
       - lms-elascticsearch
       - lms-postgres
@@ -54,3 +54,4 @@ volumes:
 networks:
   lms-net:
     name: lms-net
+    driver: bridge
