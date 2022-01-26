@@ -22,7 +22,7 @@ type MyCourseEntityModel struct {
 
 	// relational
 	Course CourseEntityModel `json:"course" gorm:"foreignKey:CourseID"`
-	User   UserEntityModel   `json:"user,omitempty" gorm:"foreignKey:UserID;"`
+	User   UserEntityModel   `json:"user" gorm:"foreignKey:UserID;"`
 
 	// contexts
 	Context *abstraction.Context `json:"-" gorm:"-"`
