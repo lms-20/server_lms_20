@@ -7,21 +7,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type ReviewEntity struct {
-	// relational
-	UserID   int `json:"user_id"`
-	CourseID int `json:"course_id"`
-	// field
-	Rating int    `json:"rating" validate:"required"`
-	Note   string `json:"note" validate:"required"`
+type ReqCourseEntity struct {
+	UserID      int    `json:"user_id"`
+	Description string `json:"description" validate:"required"`
+	Name        string `json:"name" validate:"required"`
+	Goal        string `json:"goal" validate:"required"`
 }
 
-type ReviewEntityModel struct {
+type ReqCourseEntityModel struct {
 	// abstraction
 	abstraction.Entity
 
 	//entity
-	ReviewEntity
+	ReqCourseEntity
 
 	// relational
 	User UserEntityModel `json:"user" gorm:"foreignKey:UserID;"`
@@ -30,18 +28,18 @@ type ReviewEntityModel struct {
 	Context *abstraction.Context `json:"-" gorm:"-"`
 }
 
-func (ReviewEntityModel) TableName() string {
-	return "reviews"
+func (ReqCourseEntityModel) TableName() string {
+	return "request_courses"
 }
 
-func (m *ReviewEntityModel) BeforeCreate(tx *gorm.DB) (err error) {
+func (m *ReqCourseEntityModel) BeforeCreate(tx *gorm.DB) (err error) {
 	m.CreatedAt = *date.DateTodayLocal()
 	m.UserID = m.Context.Auth.ID
 	m.CreatedBy = m.Context.Auth.Name
 	return
 }
 
-func (m *ReviewEntityModel) BeforeUpdate(tx *gorm.DB) (err error) {
+func (m *ReqCourseEntityModel) BeforeUpdate(tx *gorm.DB) (err error) {
 	m.ModifiedAt = date.DateTodayLocal()
 	m.UserID = m.Context.Auth.ID
 	m.ModifiedBy = &m.Context.Auth.Name

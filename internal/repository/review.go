@@ -10,8 +10,8 @@ import (
 type Review interface {
 	Create(ctx *abstraction.Context, e *model.ReviewEntity) (*model.ReviewEntityModel, error)
 	FindAll(ctx *abstraction.Context) (*[]model.ReviewEntityModel, error)
-	Update(ctx *abstraction.Context, id *int, e *model.ReviewEntity) (*model.ReviewEntityModel, error)
 	FindByID(ctx *abstraction.Context, id *int) (*model.ReviewEntityModel, error)
+	Update(ctx *abstraction.Context, id *int, e *model.ReviewEntity) (*model.ReviewEntityModel, error)
 	Delete(ctx *abstraction.Context, id *int, e *model.ReviewEntityModel) (*model.ReviewEntityModel, error)
 }
 

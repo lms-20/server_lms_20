@@ -11,7 +11,7 @@ type ChapterEntity struct {
 	Name     string `json:"name" validate:"required"`
 	CourseID int    `json:"course_id" validate:"required"`
 	Order    int    `json:"order" validate:"required"`
-	Link_ppt string `json:"link_ppt" validate:"required"`
+	Link_ppt string `json:"link_ppt"`
 }
 
 type ChapterEntityModel struct {

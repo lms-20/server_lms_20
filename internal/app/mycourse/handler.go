@@ -43,7 +43,7 @@ func (h *handler) Create(c echo.Context) error {
 		return res.ErrorResponse(err).Send(c)
 	}
 
-	if course.Type == "fremium" {
+	if course.Type == "premium" {
 		order, err := h.serviceOrder.Create(cc, &dto.OrderCreateRequest{CourseID: course.ID})
 		if err != nil {
 			return res.ErrorResponse(err).Send(c)

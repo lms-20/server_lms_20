@@ -8,18 +8,20 @@ import (
 )
 
 type Factory struct {
-	Db                 *gorm.DB
-	UserRepository     repository.User
-	SampleRepository   repository.Sample
-	MentorRepository   repository.Mentor
-	CategoryRepository repository.Category
-	CourseRepository   repository.Course
-	ChapterRepository  repository.Chapter
-	LessonRepository   repository.Lesson
-	NoteRepository     repository.Note
-	ReviewRepository   repository.Review
-	MyCourseRepository repository.MyCourse
-	OrderRepository    repository.Order
+	Db                      *gorm.DB
+	UserRepository          repository.User
+	SampleRepository        repository.Sample
+	MentorRepository        repository.Mentor
+	CategoryRepository      repository.Category
+	CourseRepository        repository.Course
+	ChapterRepository       repository.Chapter
+	LessonRepository        repository.Lesson
+	NoteRepository          repository.Note
+	ReviewRepository        repository.Review
+	MyCourseRepository      repository.MyCourse
+	OrderRepository         repository.Order
+	ReqCounselingRepository repository.ReqCounseling
+	ReqCourseRepository     repository.ReqCourse
 }
 
 func NewFactory() *Factory {
@@ -54,5 +56,7 @@ func (f *Factory) SetupRepository() {
 	f.ReviewRepository = repository.NewReview(f.Db)
 	f.MyCourseRepository = repository.NewMyCourse(f.Db)
 	f.OrderRepository = repository.NewOrder(f.Db)
+	f.ReqCounselingRepository = repository.NewReqCounseling(f.Db)
+	f.ReqCourseRepository = repository.NewReqCourse(f.Db)
 
 }

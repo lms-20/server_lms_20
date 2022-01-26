@@ -35,6 +35,8 @@ func Init() {
 				&model.MyCourseEntityModel{},
 				&model.OrderEntityModel{},
 				&model.PaymentLogEntityModel{},
+				&model.ReqCounselingEntityModel{},
+				&model.ReqCourseEntityModel{},
 			},
 			IsAutoMigrate: true,
 		},
