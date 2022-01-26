@@ -7,13 +7,14 @@ services:
     restart: always
     environment:
       - xpack.security.enabled=false
-      - 'discovery.type=single-node'
+      - discovery.type=single-node
     networks:
       - lms-net
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+      - 9300:9300
 
   # postgress
   lms-postgres:
@@ -39,13 +40,13 @@ services:
     container_name: lms-api
     image: lms-api:latest
     ports:
-      - '3030:9200'
+      - '3030:3030'
+    command: sh -c "dockerize -wait tcp://lms-postgres:5432 -timeout 300s -wait-retry-interval 30s  ENV=DEV /go/bin/api"
     depends_on:
-      - lms-elascticsearch
       - lms-postgres
+      - lms-elascticsearch
     networks:
       - lms-net
-    command: sh -c "dockerize -wait tcp://lms-postgres:5432 -timeout 300s -wait-retry-interval 30s  ENV=DEV /go/bin/api"
 
 volumes:
   lms-postgres:
