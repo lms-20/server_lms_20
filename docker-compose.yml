@@ -1,78 +1,57 @@
-version: "3.9"
+version: '3.9'
 services:
-  # api
-  codeid-api:
-    container_name: codeid-api
-    image: codeid-api:latest
-    ports:
-      - "3030:3030"
-    depends_on: 
-      - codeid-redis
-      - elasticsearch
-      - codeid-postgres
-    networks:
-      - codeid-net
-    command: sh -c "dockerize -wait tcp://codeid-postgres:5432 -wait http://es-container:9200 -timeout 300s -wait-retry-interval 30s  ENV=DEV /go/bin/api"
-
   # elasticsearch
-  elasticsearch:
-    container_name: es-container
+  lms-elascticsearch:
+    container_name: lms-elascticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.13.3
+    restart: always
     environment:
       - xpack.security.enabled=false
-      - "discovery.type=single-node"
+      - 'discovery.type=single-node'
     networks:
-      - codeid-net
+      - lms-net
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
 
-  
-  # redis
-  codeid-redis:
-    image: "redis:alpine"
-    container_name: codeid-redis
-    command: redis-server --requirepass 21541e54-d91c-4c4b-ab94-26fa5a46a654
-    environment:
-      - REDIS_REPLICATION_MODE=master
-    volumes:
-      - codeid-redis:/var/lib/redis
-      - codeid-redis-conf:/usr/local/etc/redis/redis.conf
-    ports:
-      - "6379:6379"
-    restart: always
-    networks:
-      - codeid-net
-
-
   # postgress
-  codeid-postgres:
-    container_name: codeid-postgres
-    image: postgres:12-alpine 
-    environment: 
-      - POSTGRES_USER=postgres
+  lms-postgres:
+    container_name: lms-postgres
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=db_lms
-    volumes: 
-      - codeid-postgres:/var/lib/postgresql
+      - APP_DB_USER=postgres
+      - APP_DB_PASS=password
+      - APP_DB_NAME=db_lms
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
+      - lms-postgres:/var/lib/postgresql
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
-      - codeid-net
+      - lms-net
 
-  
+    # api
+  lms-api:
+    container_name: lms-api
+    image: lms-api:latest
+    restart: always
+    ports:
+      - '3030:3030'
+    depends_on:
+      - lms-elascticsearch
+      - lms-postgres
+    networks:
+      - lms-net
+    command: sh -c "dockerize -wait tcp://lms-postgres:5432 -timeout 300s -wait-retry-interval 30s  ENV=DEV /go/bin/api"
+
 volumes:
-  codeid-postgres:
-    external: true
-  codeid-redis:
-    external: true
-  codeid-redis-conf:
-    external: true
+  lms-postgres:
   elasticsearch:
-    external: true
 
-  
 networks:
-  codeid-net:
-    name: codeid-net
+  lms-net:
+    name: lms-net
