@@ -45,7 +45,7 @@ func (r *reqCounseling) FindAll(ctx *abstraction.Context) (*[]model.ReqCounselin
 	conn := r.CheckTrx(ctx)
 	var datas []model.ReqCounselingEntityModel
 
-	err := conn.Preload("User").Find(&datas).WithContext(ctx.Request().Context()).Error
+	err := conn.Preload("User").Preload("Course").Find(&datas).WithContext(ctx.Request().Context()).Error
 	if err != nil {
 		return &datas, err
 	}
