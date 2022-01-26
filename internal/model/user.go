@@ -54,7 +54,6 @@ func (m *UserEntityModel) BeforeCreate(tx *gorm.DB) (err error) {
 
 	m.hashPassword()
 	m.Password = ""
-	m.Role = "student"
 	return
 }
 

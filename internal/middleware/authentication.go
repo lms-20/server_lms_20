@@ -12,6 +12,48 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// type Role struct {
+// 	Roles []string
+// }
+
+// type Privilege string
+
+// const (
+// 	IsAdmin    Privilege = "admin"
+// 	IsStudent  Privilege = "student"
+// 	IsEmployee Privilege = "employee"
+// )
+
+// // AuthContext holds information about user who has been authenticated for request
+// type AuthContext struct {
+// 	Privileges []Privilege
+// }
+
+// func Authorization(privileges ...Privilege) echo.MiddlewareFunc {
+// 	return func(next echo.HandlerFunc) echo.HandlerFunc {
+// 		return func(c echo.Context) error {
+// 			// raw := c.Get(SecurityContextKey)
+// 			// fmt.Println("==============================================================")
+// 			// fmt.Println(raw)
+// 			// if raw == nil {
+// 			// 	return echo.ErrUnauthorized
+// 			// }
+// 			cc := c.(*abstraction.Context)
+// 			currentRole := cc.Auth.Role
+// 			success := checkRole(currentRole)
+// 			if cc != nil {
+// 				return echo.ErrUnauthorized
+// 			}
+// 			return next(c)
+// 		}
+// 	}
+// }
+
+// func checkRole(roless []string, currentRole string) bool {
+// 	role := strings.Join(roless[:], " ")
+// 	return strings.Contains(role, currentRole)
+// }
+
 func Authentication(next echo.HandlerFunc) echo.HandlerFunc {
 	var (
 		jwtKey = os.Getenv("JWT_KEY")

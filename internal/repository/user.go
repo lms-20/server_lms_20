@@ -3,6 +3,7 @@ package repository
 import (
 	"lms-api/internal/abstraction"
 	"lms-api/internal/model"
+	"regexp"
 
 	"gorm.io/gorm"
 )
@@ -42,6 +43,16 @@ func (r *user) Create(ctx *abstraction.Context, e *model.UserEntity) (*model.Use
 
 	var data model.UserEntityModel
 	data.UserEntity = *e
+
+	var regex, _ = regexp.Compile(`^[a-zA-Z0-9._%+-]+@alterra\.com$`)
+
+	var isMatch = regex.MatchString(data.UserEntity.Email)
+	if isMatch {
+		data.UserEntity.Role = "employee"
+	} else {
+		data.UserEntity.Role = "student"
+	}
+
 	err := conn.Create(&data).Error
 	if err != nil {
 		return nil, err

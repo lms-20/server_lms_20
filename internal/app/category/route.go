@@ -7,6 +7,6 @@ import (
 )
 
 func (h *handler) Route(g *echo.Group) {
-	g.POST("", h.Create, middleware.Authentication)
+	g.POST("", h.Create, middleware.Authentication, middleware.Authorization(middleware.IsAdmin))
 	g.GET("", h.Get)
 }
