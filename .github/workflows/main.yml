@@ -57,9 +57,9 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           envs: IMAGE_NAME,REGISTRY,{{ secrets.DIGITALOCEAN_ACCESS_TOKEN }},GITHUB_SHA
           script: |
-            # Login to registry
             # config
             sudo sysctl -w vm.max_map_count=262144 # it is required for elasticsearch config
+            # Login to registry
             docker login -u ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} -p ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }} registry.digitalocean.com
             # Stop running container
             docker stop $(echo $IMAGE_NAME)
