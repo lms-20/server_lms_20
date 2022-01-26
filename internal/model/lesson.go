@@ -10,7 +10,6 @@ import (
 type LessonEntity struct {
 	Name      string `json:"name" validate:"required"`
 	Video     string `json:"video" validate:"required"`
-	Order     int    `json:"order" validate:"required"`
 	ChapterID int    `json:"chapter_id" validate:"required"`
 }
 
